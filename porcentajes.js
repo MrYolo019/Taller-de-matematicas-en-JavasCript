@@ -6,6 +6,25 @@ const pResult = document.querySelector('#result');
 
 btn.addEventListener('click', calcularPrecioConDescuento)
 
+// const couponObj = {
+//     'PlatziDay' : 30,
+//     'MotherDays' : 25, 
+// }
+
+const couponsList = [];
+couponsList.push({
+    name: 'PlatziDay',
+    discount: 30,
+});
+couponsList.push({
+    name: 'MothersDay',
+    discount: 50,
+});
+couponsList.push({
+    name: 'BlackDay',
+    discount: 70,
+});
+
 function calcularPrecioConDescuento(){
     const price = Number(inputPrice.value);
     const coupon = inputCoupon.value;
@@ -15,19 +34,29 @@ function calcularPrecioConDescuento(){
         return;
     }
     let discount;
-    if(coupon == 'jajajaquepobre'){
-        discount = 30;
+
+    function isCouponArray (couponElement){
+        return couponElement.name == coupon;
     }
-    else if (coupon == 'nosoytanpobre'){
-        discount = 25;
-    }
-    else{
-        pResult.innerText = 'El cupon vale el equivalente a mi existencia.';
-        return
-    }
-    if(discount > 100){
-        pResult.innerText = 'Aja, ya quisieras, no te vamos a dar nah.'
+
+    const couponInArray = couponsList.find(isCouponArray);
+
+    if(couponInArray){
+        discount = couponInArray.discount;
+    } else{
+        pResult.innerText = 'El cupon equivale lo que mi existencia.'
         return;
+    }
+
+    // if(couponObj[coupon]){
+    //     discount = couponObj[coupon];
+    // } else {
+    //     pResult.innerText = 'El cupon equivale lo que mi existencia.'
+    // }
+
+   if(discount > 100){
+        pResult.innerText = 'Aja, ya quisieras, no te vamos a dar nah.'
+    return;
     }
 
     const newPrice = (price * (100 - discount)) / 100;
